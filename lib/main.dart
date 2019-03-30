@@ -20,14 +20,98 @@ class LoginPage extends StatefulWidget {
   State createState() => LoginPageState();
 }
 
-class LoginPageState extends State<LoginPage> {
+class LoginPageState extends State<LoginPage> with SingleTickerProviderStateMixin {
+
+AnimationController _iconAnimationController;
+Animation<double> _iconAnimation;
+
+@override
+  void initState() {
+    super.initState();
+    _iconAnimationController =AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 500)
+    );
+    _iconAnimation = CurvedAnimation(
+      parent: _iconAnimationController,
+      curve: Curves.easeOut
+    );
+    _iconAnimation.addListener(()=> this.setState(() {}));
+    _iconAnimationController.forward();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: Text("Login"),
+      backgroundColor: Colors.greenAccent,
+      body: Stack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          Image(
+            image: AssetImage("assets/rice.png"),
+            fit: BoxFit.cover,
+            color: Colors.black87,
+            colorBlendMode: BlendMode.darken,
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                FlutterLogo(
+                  size: _iconAnimation.value * 100,
+                  ),
+                  Form(
+                    child: Theme(
+                      data: ThemeData(
+                        brightness: Brightness.dark,
+                        primarySwatch: Colors.teal,
+                        inputDecorationTheme: InputDecorationTheme(
+                          labelStyle: TextStyle(
+                            color: Colors.teal,
+                            fontSize: 20.0,
+                          )
+                        )
+                      ),
+                    child: Container(
+                      padding: const EdgeInsets.all(40.0),
+                                          child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          TextFormField(
+                        decoration: InputDecoration(
+                          labelText: "Enter Email",
+                        ),
+                        keyboardType: TextInputType.emailAddress,
+                      ),
+                      TextFormField(
+                        decoration: InputDecoration(
+                          labelText: "Enter Password",
+                        ),
+                        keyboardType: TextInputType.text,
+                        obscureText: true,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 40.0),
+                      ),
+                      MaterialButton(
+                        height: 40.0,
+                        minWidth: 100.0,
+                        color: Colors.teal,
+                        textColor: Colors.white,
+                        child: Text("Login"),
+                        onPressed: () => {
+
+                        },
+                        splashColor: Colors.redAccent,
+                        ),
+                        ],
+                      ),
+                    ),),
+                    ),
+              ],)
+        ],
       ),
+      
       );
   }
 }
